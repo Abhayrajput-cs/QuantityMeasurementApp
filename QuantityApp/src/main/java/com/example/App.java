@@ -1,80 +1,82 @@
 package com.example;
 public class App {
 
-	    // Feet class
-	    public static class Feet {
-	        private final double value;
+    // Base Unit: FEET
+    public enum LengthUnit {
 
-	        public Feet(double value) {
-	            this.value = value;
-	        }
+        FEET(1.0),                    // Base unit
+        INCHES(1.0 / 12.0),           // 1 inch = 1/12 feet
+        YARDS(3.0),                   // 1 yard = 3 feet
+        CENTIMETERS(0.393701 / 12.0); // 1 cm = 0.393701 inches
+                                        // Convert inches to feet → divide by 12
 
-	        public double getValue() {
-	            return value;
-	        }
+        private final double conversionFactorToFeet;
 
-	        @Override
-	        public boolean equals(Object obj) {
-	            if (this == obj) return true;
+        LengthUnit(double conversionFactorToFeet) {
+            this.conversionFactorToFeet = conversionFactorToFeet;
+        }
 
-	            if (obj == null || getClass() != obj.getClass())
-	                return false;
+        public double toFeet(double value) {
+            return value * conversionFactorToFeet;
+        }
+    }
 
-	            Feet other = (Feet) obj;
-	            return Double.compare(this.value, other.value) == 0;
-	        }
-	    }
+    // Generic QuantityLength Class (UNCHANGED)
+    public static class QuantityLength {
 
-	    // Inches class
-	    public static class Inches {
-	        private final double value;
+        private final double value;
+        private final LengthUnit unit;
 
-	        public Inches(double value) {
-	            this.value = value;
-	        }
+        public QuantityLength(double value, LengthUnit unit) {
+            if (unit == null) {
+                throw new IllegalArgumentException("Unit cannot be null");
+            }
+            this.value = value;
+            this.unit = unit;
+        }
 
-	        public double getValue() {
-	            return value;
-	        }
+        private double toFeet() {
+            return unit.toFeet(value);
+        }
 
-	        @Override
-	        public boolean equals(Object obj) {
-	            if (this == obj) return true;
+        @Override
+        public boolean equals(Object obj) {
 
-	            if (obj == null || getClass() != obj.getClass())
-	                return false;
+            if (this == obj) return true;
 
-	            Inches other = (Inches) obj;
-	            return Double.compare(this.value, other.value) == 0;
-	        }
-	    }
+            if (obj == null || getClass() != obj.getClass())
+                return false;
 
-	    // method to compare feet
-	    public static boolean compareFeet(double v1, double v2) {
-	        Feet f1 = new Feet(v1);
-	        Feet f2 = new Feet(v2);
-	        return f1.equals(f2);
-	    }
+            QuantityLength other = (QuantityLength) obj;
 
-	    // method to compare inches
-	    public static boolean compareInches(double v1, double v2) {
-	        Inches i1 = new Inches(v1);
-	        Inches i2 = new Inches(v2);
-	        return i1.equals(i2);
-	        
-	        
-	    }
+            return Double.compare(this.toFeet(), other.toFeet()) == 0;
+        }
 
-	    // Main method
-	    public static void main(String[] args) {
+        @Override
+        public String toString() {
+            return "Quantity(" + value + ", " + unit + ")";
+        }
+    }
 
-	        boolean inchResult = compareInches(1.0, 1.0);
-	        System.out.println("Input: 1.0 inch and 1.0 inch");
-	        System.out.println("Output: Equal (" + inchResult + ")");
+    // Main Method Demo (UC4)
+    public static void main(String[] args) {
 
-	        boolean feetResult = compareFeet(1.0, 1.0);
-	        System.out.println("Input: 1.0 ft and 1.0 ft");
-	        System.out.println("Output: Equal (" + feetResult + ")");
-	    }
-	}
+        QuantityLength q1 =  new QuantityLength(1.0, LengthUnit.YARDS);
+        QuantityLength q2 =  new QuantityLength(3.0, LengthUnit.FEET);
 
+        System.out.println("Input: " + q1 + " and " + q2);
+        System.out.println("Output: Equal (" + q1.equals(q2) + ")");
+
+        QuantityLength q3 =  new QuantityLength(1.0, LengthUnit.YARDS);
+        QuantityLength q4 =new QuantityLength(36.0, LengthUnit.INCHES);
+
+        System.out.println("Input: " + q3 + " and " + q4);
+        System.out.println("Output: Equal (" + q3.equals(q4) + ")");
+
+        QuantityLength q5 =  new QuantityLength(1.0, LengthUnit.CENTIMETERS);
+        QuantityLength q6 =  new QuantityLength(0.393701, LengthUnit.INCHES);
+
+        System.out.println("Input: " + q5 + " and " + q6);
+        System.out.println("Output: Equal (" + q5.equals(q6) + ")");
+    }
+}
