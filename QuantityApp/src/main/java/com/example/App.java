@@ -61,6 +61,8 @@ public class App {
 	        Inches i1 = new Inches(v1);
 	        Inches i2 = new Inches(v2);
 	        return i1.equals(i2);
+	        
+	        
 	    }
 
 	    // Main method
