@@ -54,6 +54,8 @@ public class App {
 	        Feet f1 = new Feet(v1);
 	        Feet f2 = new Feet(v2);
 	        return f1.equals(f2);
+	        
+	        
 	    }
 
 	    // method to compare inches
