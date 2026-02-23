@@ -24,7 +24,7 @@ class AppTest {
     void testEquality_NullComparison() {
         App.Feet f1 = new App.Feet(1.0);
 
-        assertFalse(f1.equals(null), "1.0 ft should not equal null");
+        assertFalse(f1.equals(null), " should not equal null");
     }
 
     @Test
