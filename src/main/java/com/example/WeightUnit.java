@@ -10,6 +10,7 @@ public enum WeightUnit {
 
     WeightUnit(double conversionFactorToKilogram) {
         this.ToKg = conversionFactorToKilogram;
+        
     }
 
     public double getConversionFactor() {
