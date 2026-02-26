@@ -2,14 +2,14 @@ package com.example;
 
 import java.util.Objects;
 
-public final class QuantityLength {
+public final class QuantityWeight {
 
     private final double value;
-    private final LengthUnit unit;
+    private final WeightUnit unit;
 
     private static final double EPSILON = 1e-6;
 
-    public QuantityLength(double value, LengthUnit unit) {
+    public QuantityWeight(double value, WeightUnit unit) {
 
         if (!Double.isFinite(value))
             throw new IllegalArgumentException("Value must be finite");
@@ -25,35 +25,32 @@ public final class QuantityLength {
         return value;
     }
 
-    public LengthUnit getUnit() {
+    public WeightUnit getUnit() {
         return unit;
     }
 
-    //  UC5 Conversion (delegated to LengthUnit)
-    public QuantityLength convertTo(LengthUnit targetUnit) {
+    // Conversion
 
-        if (targetUnit == null)
-            throw new IllegalArgumentException("Target unit cannot be null");
+    public QuantityWeight convertTo(WeightUnit targetUnit) {
+
+        if (targetUnit == null)throw new IllegalArgumentException("Target unit cannot be null");
 
         double baseValue = unit.convertToBaseUnit(value);
-        double converted = targetUnit.convertFromBaseUnit(baseValue);
+        double convertedValue = targetUnit.convertFromBaseUnit(baseValue);
 
-        return new QuantityLength(converted, targetUnit);
+        return new QuantityWeight(convertedValue, targetUnit);
     }
 
-    //  UC6
-    public QuantityLength add(QuantityLength other) {
+    // Addition from UC6 
+
+    public QuantityWeight add(QuantityWeight other) {
         return add(other, this.unit);
     }
 
-    //  UC7
-    public QuantityLength add(QuantityLength other, LengthUnit targetUnit) {
 
-        if (other == null)
-            throw new IllegalArgumentException("Other quantity cannot be null");
-
-        if (targetUnit == null)
-            throw new IllegalArgumentException("Target unit cannot be null");
+    public QuantityWeight add(QuantityWeight other, WeightUnit targetUnit) {
+        if (other == null)throw new IllegalArgumentException("Other quantity cannot be null");
+        if (targetUnit == null)throw new IllegalArgumentException("Target unit cannot be null");
 
         double base1 = this.unit.convertToBaseUnit(this.value);
         double base2 = other.unit.convertToBaseUnit(other.value);
@@ -62,20 +59,25 @@ public final class QuantityLength {
 
         double finalValue = targetUnit.convertFromBaseUnit(sumBase);
 
-        return new QuantityLength(finalValue, targetUnit);
+        return new QuantityWeight(finalValue, targetUnit);
     }
 
-    //Equalitychecking
+    // Equality (Category Safe)
+
     private double toBase() {
         return unit.convertToBaseUnit(value);
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (!(obj instanceof QuantityLength)) return false;
 
-        QuantityLength other = (QuantityLength) obj;
+        if (this == obj)
+            return true;
+
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+
+        QuantityWeight other = (QuantityWeight) obj;
 
         return Math.abs(this.toBase() - other.toBase()) < EPSILON;
     }
