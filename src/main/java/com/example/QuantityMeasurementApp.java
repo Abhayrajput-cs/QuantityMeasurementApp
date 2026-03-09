@@ -1,6 +1,6 @@
 package com.example;
 
-public class QuantityMeasurement{
+public class QuantityMeasurementApp{
 	public static void main(String[] args) {
 
 	    Quantity<VolumeUnit> v1 =
