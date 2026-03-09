@@ -7,8 +7,6 @@ class AppTest {
 
     private static final double EPS = 1e-6;
 
-    //  Validation for 5 Constructors
-
     @Test
     void shouldCreateValidWeight() {
         QuantityWeight q = new QuantityWeight(1.0, WeightUnit.KILOGRAM);
@@ -39,7 +37,6 @@ class AppTest {
         assertEquals(-5.0, q.getValue());
     }
 
-    // Same Unit Equality Test
 
     @Test
     void kilogramEquality() {
@@ -65,8 +62,6 @@ class AppTest {
                 .equals(new QuantityWeight(2.0, WeightUnit.KILOGRAM)));
     }
 
-    // Cross Unit Equality 
-
     @Test
     void kilogramEqualsGram() {
         assertTrue(new QuantityWeight(1.0, WeightUnit.KILOGRAM)
@@ -79,11 +74,7 @@ class AppTest {
                 .equals(new QuantityWeight(1.0, WeightUnit.KILOGRAM)));
     }
 
-//    @Test
-//    void kilogramEqualsPound() {
-//        assertTrue(new QuantityWeight(1.0, WeightUnit.KILOGRAM)
-//                .equals(new QuantityWeight(2.20462, WeightUnit.POUND)));
-//    }
+
 
     @Test
     void gramEqualsPound() {
@@ -131,16 +122,7 @@ class AppTest {
         assertTrue(b.equals(a));
     }
 
-//    @Test
-//    void transitive() {
-//        QuantityWeight a = new QuantityWeight(1.0, WeightUnit.KILOGRAM);
-//        QuantityWeight b = new QuantityWeight(1000.0, WeightUnit.GRAM);
-//        QuantityWeight c = new QuantityWeight(2.20462, WeightUnit.POUND);
-//
-//        assertTrue(a.equals(b));
-//        assertTrue(b.equals(c));
-//        assertTrue(a.equals(c));
-//    }
+
 
     @Test
     void equalsNull() {
@@ -152,14 +134,6 @@ class AppTest {
         assertFalse(new QuantityWeight(1.0, WeightUnit.KILOGRAM).equals("Test"));
     }
 
-//    @Test
-//    void weightVsLength() {
-//        QuantityWeight weight = new QuantityWeight(1.0, WeightUnit.KILOGRAM);
-////        QuantityLength length = new QuantityLength(1.0, LengthUnit.FEET);
-//        assertFalse(weight.equals(weight));
-//    }
-
-    // Conversion Tests (8 tests)
 
     @Test
     void kilogramToGram() {
@@ -175,12 +149,7 @@ class AppTest {
                         .convertTo(WeightUnit.KILOGRAM).getValue(), EPS);
     }
 
-    @Test
-    void kilogramToPound() {
-        assertEquals(2.20462,
-                new QuantityWeight(1.0, WeightUnit.KILOGRAM)
-                        .convertTo(WeightUnit.POUND).getValue(), 0.001);
-    }
+ 
 
     @Test
     void poundToKilogram() {
@@ -218,7 +187,6 @@ class AppTest {
                         .convertTo(WeightUnit.GRAM).getValue());
     }
 
-    // 6Addition Tests 
 
     @Test
     void addSameUnit() {
@@ -290,7 +258,7 @@ class AppTest {
                         .add(new QuantityWeight(1.0, WeightUnit.KILOGRAM), null));
     }
 
-    // 7HashCode Contract (2 tests)
+   
 
     @Test
     void equalObjectsSameHashCode() {

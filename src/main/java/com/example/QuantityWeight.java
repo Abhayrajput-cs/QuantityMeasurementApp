@@ -2,14 +2,14 @@ package com.example;
 
 import java.util.Objects;
 
-public final class Quantity<U extends IMeasurable> {
+public final class QuantityWeight<U extends IMeasurable> {
 
     private final double value;
     private final U unit;
 
     private static final double EPSILON = 1e-6;
 
-    public Quantity(double value, U unit) {
+    public QuantityWeight(double value, U unit) {
 
         if (!Double.isFinite(value))
             throw new IllegalArgumentException("Value must be finite");
@@ -32,7 +32,7 @@ public final class Quantity<U extends IMeasurable> {
         return unit.convertToBaseUnit(value);
     }
 
-    public Quantity<U> convertTo(U targetUnit) {
+    public QuantityWeight<U> convertTo(U targetUnit) {
 
         if (targetUnit == null)
             throw new IllegalArgumentException("Target unit cannot be null");
@@ -43,14 +43,14 @@ public final class Quantity<U extends IMeasurable> {
         // Round to 2 decimals
         converted = Math.round(converted * 100.0) / 100.0;
 
-        return new Quantity<>(converted, targetUnit);
+        return new QuantityWeight<>(converted, targetUnit);
     }
 
     @Override
     public boolean equals(Object obj) {
 
         if (this == obj) return true;
-        if (!(obj instanceof Quantity<?> other)) return false;
+        if (!(obj instanceof QuantityWeight<?> other)) return false;
 
         // Cross-category prevention
         if (this.unit.getClass() != other.unit.getClass())
@@ -58,11 +58,11 @@ public final class Quantity<U extends IMeasurable> {
 
         return Math.abs(this.toBaseUnit() - other.toBaseUnit()) < EPSILON;
     }
-    public Quantity<U> add(Quantity<U> other) {
+    public QuantityWeight<U> add(QuantityWeight<U> other) {
         return add(other, this.unit);
     }
 
-    public Quantity<U> add(Quantity<U> other, U targetUnit) {
+    public QuantityWeight<U> add(QuantityWeight<U> other, U targetUnit) {
 
         if (other == null)
             throw new IllegalArgumentException("Other quantity cannot be null");
@@ -75,7 +75,7 @@ public final class Quantity<U extends IMeasurable> {
 
         finalValue = Math.round(finalValue * 100.0) / 100.0;
 
-        return new Quantity<>(finalValue, targetUnit);
+        return new QuantityWeight<>(finalValue, targetUnit);
     }
 
     @Override
