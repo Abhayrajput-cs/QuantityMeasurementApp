@@ -1,15 +1,14 @@
-package com.example;
+package com.example.units;
 
-public enum LengthUnit implements IMeasurable {
+public enum WeightUnit implements IMeasurable {
 
-    FEET(1.0),
-    INCHES(1.0 / 12.0),
-    YARDS(3.0),
-    CENTIMETERS(0.0328084);
+    KILOGRAM(1.0),
+    GRAM(0.001),
+    POUND(0.453592);
 
     private final double conversionFactor;
 
-    LengthUnit(double conversionFactor) {
+    WeightUnit(double conversionFactor) {
         this.conversionFactor = conversionFactor;
     }
 
@@ -23,13 +22,13 @@ public enum LengthUnit implements IMeasurable {
         return name();
     }
 
-    // Convert unit → base unit (FEET)
+    // Convert to base unit (KILOGRAM)
     @Override
     public double toBaseUnit(double value) {
         return value * conversionFactor;
     }
 
-    // Convert base unit → this unit
+    // Convert from base unit
     @Override
     public double fromBaseUnit(double value) {
         return value / conversionFactor;
@@ -37,6 +36,6 @@ public enum LengthUnit implements IMeasurable {
 
     @Override
     public void validateOperationSupport(String operation) {
-        // Length supports arithmetic operations
+        // Weight supports arithmetic operations
     }
 }

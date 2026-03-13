@@ -1,14 +1,14 @@
-package com.example;
+package com.example.units;
 
-public enum WeightUnit implements IMeasurable {
+public enum VolumeUnit implements IMeasurable {
 
-    KILOGRAM(1.0),
-    GRAM(0.001),
-    POUND(0.453592);
+    LITRE(1.0),
+    MILLILITRE(0.001),
+    GALLON(3.78541);
 
     private final double conversionFactor;
 
-    WeightUnit(double conversionFactor) {
+    VolumeUnit(double conversionFactor) {
         this.conversionFactor = conversionFactor;
     }
 
@@ -22,13 +22,13 @@ public enum WeightUnit implements IMeasurable {
         return name();
     }
 
-    // Convert to base unit (KILOGRAM)
+    // Convert unit → base unit (LITRE)
     @Override
     public double toBaseUnit(double value) {
         return value * conversionFactor;
     }
 
-    // Convert from base unit
+    // Convert base unit → target unit
     @Override
     public double fromBaseUnit(double value) {
         return value / conversionFactor;
@@ -36,6 +36,6 @@ public enum WeightUnit implements IMeasurable {
 
     @Override
     public void validateOperationSupport(String operation) {
-        // Weight supports arithmetic operations
+        // Volume supports arithmetic operations
     }
 }

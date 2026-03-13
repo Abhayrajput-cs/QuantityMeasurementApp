@@ -1,5 +1,4 @@
-package com.example;
-
+package com.example.units;
 import java.util.function.DoubleBinaryOperator;
 
 public enum ArithmeticOperation {

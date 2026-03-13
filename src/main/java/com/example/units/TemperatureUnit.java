@@ -1,4 +1,4 @@
-package com.example;
+package com.example.units;
 
 public enum TemperatureUnit implements IMeasurable {
 
