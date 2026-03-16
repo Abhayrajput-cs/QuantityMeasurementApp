@@ -1,16 +1,23 @@
 package com.example.service;
 
-import com.example.dto.QuantityDTO;
+import com.example.dto.*;
+import com.example.entity.QuantityMeasurementEntity;
+import com.example.model.*;
+
+import java.util.List;
 
 public interface IQuantityMeasurementService {
 
-    QuantityDTO convert(QuantityDTO input, String targetUnit);
 
-    boolean compare(QuantityDTO q1, QuantityDTO q2);
+    QuantityMeasurementEntity convert(QuantityInputDTO input);
 
-    QuantityDTO add(QuantityDTO q1, QuantityDTO q2);
+    QuantityMeasurementEntity add(QuantityInputDTO input);
 
-    QuantityDTO subtract(QuantityDTO q1, QuantityDTO q2);
+    List<QuantityMeasurementEntity> getHistoryByOperation(String operation);
 
-    double divide(QuantityDTO q1, QuantityDTO q2);
+    long getOperationCount(String operation);
+
+	QuantityMeasurementEntity compare(QuantityInputDTO input);
+
+	
 }

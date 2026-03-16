@@ -1,52 +1,44 @@
 package com.example.controller;
 
-import com.example.dto.QuantityDTO;
-import com.example.service.IQuantityMeasurementService;
+import com.example.dto.*;
+import com.example.entity.QuantityMeasurementEntity;
+import com.example.model.*;
+import com.example.service.*;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/v1/quantities")
 public class QuantityMeasurementController {
 
+    @Autowired
     private IQuantityMeasurementService service;
 
-    public QuantityMeasurementController(IQuantityMeasurementService service) {
-        this.service = service;
+    @PostMapping("/compare")
+    public QuantityMeasurementEntity compare(@RequestBody QuantityInputDTO input) {
+        return service.compare(input);
     }
 
-    public void performAddition(QuantityDTO q1, QuantityDTO q2) {
-
-        QuantityDTO result = service.add(q1, q2);
-
-        System.out.println("Addition Result: " + result.getValue() + " " + result.getUnit());
+    @PostMapping("/convert")
+    public QuantityMeasurementEntity convert(@RequestBody QuantityInputDTO input) {
+        return service.convert(input);
     }
 
-    public void performComparison(QuantityDTO q1, QuantityDTO q2) {
-
-        boolean result = service.compare(q1, q2);
-
-        System.out.println("Are equal: " + result);
+    @PostMapping("/add")
+    public QuantityMeasurementEntity add(@RequestBody QuantityInputDTO input) {
+        return service.add(input);
     }
 
-    public void run() {
+    @GetMapping("/history/operation/{operation}")
+    public List<QuantityMeasurementEntity> getHistory(@PathVariable String operation) {
+        return service.getHistoryByOperation(operation);
+    }
 
-        System.out.println("Starting Quantity Measurement Application...");
-
-        // Length comparison example
-        QuantityDTO inch = new QuantityDTO(12.0, "INCHES", "LENGTH");
-        QuantityDTO foot = new QuantityDTO(1.0, "FEET", "LENGTH");
-
-        performComparison(inch, foot);
-
-        // Length addition example
-        QuantityDTO foot1 = new QuantityDTO(1, "FEET", "LENGTH");
-        QuantityDTO foot2 = new QuantityDTO(2, "FEET", "LENGTH");
-
-        performAddition(foot1, foot2);
-
-        // Weight comparison example
-        QuantityDTO gram = new QuantityDTO(1000, "GRAM", "WEIGHT");
-        QuantityDTO kg = new QuantityDTO(1, "KILOGRAM", "WEIGHT");
-
-        performComparison(gram, kg);
-
-        System.out.println("Application execution completed.");
+    @GetMapping("/count/{operation}")
+    public long getCount(@PathVariable String operation) {
+        return service.getOperationCount(operation);
     }
 }

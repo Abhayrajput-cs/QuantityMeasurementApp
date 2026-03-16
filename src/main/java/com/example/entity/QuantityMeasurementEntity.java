@@ -1,75 +1,143 @@
 package com.example.entity;
 
-import java.io.Serializable;
+import jakarta.persistence.*;
+import lombok.*;
+import java.time.LocalDateTime;
 
-public class QuantityMeasurementEntity implements Serializable {
+@Entity
+@Table(name = "quantity_measurements")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class QuantityMeasurementEntity {
 
-    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    private int id;
+    private Double thisValue;
+    private String thisUnit;
+    private String thisMeasurementType;
+
+    private Double thatValue;
+    private String thatUnit;
+    private String thatMeasurementType;
+
     private String operation;
-    private String measurementType;
 
-    private String unit1;
-    private String unit2;
+    private Double resultValue;
+    private String resultUnit;
 
-    private double value1;
-    private double value2;
+    private String resultString;
 
-    private boolean result;
     private boolean error;
-    private String message;
+    private String errorMessage;
 
-    public QuantityMeasurementEntity() {}
+    private LocalDateTime createdAt;
 
-    public QuantityMeasurementEntity(String operation,
-                                     String measurementType,
-                                     String unit1,
-                                     double value1,
-                                     String unit2,
-                                     double value2,
-                                     boolean result) {
+	public Double getThisValue() {
+		return thisValue;
+	}
 
-        this.operation = operation;
-        this.measurementType = measurementType;
-        this.unit1 = unit1;
-        this.value1 = value1;
-        this.unit2 = unit2;
-        this.value2 = value2;
-        this.result = result;
-        this.error = false;
-    }
+	public void setThisValue(Double thisValue) {
+		this.thisValue = thisValue;
+	}
 
-    public QuantityMeasurementEntity(String message) {
-        this.error = true;
-        this.message = message;
-    }
+	public String getThisUnit() {
+		return thisUnit;
+	}
 
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+	public void setThisUnit(String thisUnit) {
+		this.thisUnit = thisUnit;
+	}
 
-    public String getOperation() { return operation; }
-    public void setOperation(String operation) { this.operation = operation; }
+	public String getThisMeasurementType() {
+		return thisMeasurementType;
+	}
 
-    public String getMeasurementType() { return measurementType; }
-    public void setMeasurementType(String measurementType) { this.measurementType = measurementType; }
+	public void setThisMeasurementType(String thisMeasurementType) {
+		this.thisMeasurementType = thisMeasurementType;
+	}
 
-    public String getUnit1() { return unit1; }
-    public void setUnit1(String unit1) { this.unit1 = unit1; }
+	public Double getThatValue() {
+		return thatValue;
+	}
 
-    public String getUnit2() { return unit2; }
-    public void setUnit2(String unit2) { this.unit2 = unit2; }
+	public void setThatValue(Double thatValue) {
+		this.thatValue = thatValue;
+	}
 
-    public double getValue1() { return value1; }
-    public void setValue1(double value1) { this.value1 = value1; }
+	public String getThatUnit() {
+		return thatUnit;
+	}
 
-    public double getValue2() { return value2; }
-    public void setValue2(double value2) { this.value2 = value2; }
+	public void setThatUnit(String thatUnit) {
+		this.thatUnit = thatUnit;
+	}
 
-    public boolean getResult() { return result; }
-    public void setResult(boolean result) { this.result = result; }
+	public String getThatMeasurementType() {
+		return thatMeasurementType;
+	}
 
-    public boolean hasError() { return error; }
+	public void setThatMeasurementType(String thatMeasurementType) {
+		this.thatMeasurementType = thatMeasurementType;
+	}
 
-    public String getMessage() { return message; }
+	public String getOperation() {
+		return operation;
+	}
+
+	public void setOperation(String operation) {
+		this.operation = operation;
+	}
+
+	public Double getResultValue() {
+		return resultValue;
+	}
+
+	public void setResultValue(Double resultValue) {
+		this.resultValue = resultValue;
+	}
+
+	public String getResultUnit() {
+		return resultUnit;
+	}
+
+	public void setResultUnit(String resultUnit) {
+		this.resultUnit = resultUnit;
+	}
+
+	public String getResultString() {
+		return resultString;
+	}
+
+	public void setResultString(String resultString) {
+		this.resultString = resultString;
+	}
+
+	public boolean isError() {
+		return error;
+	}
+
+	public void setError(boolean error) {
+		this.error = error;
+	}
+
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+
+	public void setErrorMessage(String errorMessage) {
+		this.errorMessage = errorMessage;
+	}
+
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
+
+ 
 }
