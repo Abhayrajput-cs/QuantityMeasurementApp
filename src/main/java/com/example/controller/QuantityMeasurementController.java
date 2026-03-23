@@ -1,8 +1,8 @@
 package com.example.controller;
 
 import com.example.dto.*;
+
 import com.example.entity.QuantityMeasurementEntity;
-import com.example.model.*;
 import com.example.service.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +30,18 @@ public class QuantityMeasurementController {
     @PostMapping("/add")
     public QuantityMeasurementEntity add(@RequestBody QuantityInputDTO input) {
         return service.add(input);
+    }
+    @PostMapping("/divide")
+    public QuantityMeasurementEntity divide(@RequestBody QuantityInputDTO input) {
+        return service.divide(input);
+    }
+    @PostMapping("/multiply")
+    public QuantityMeasurementEntity multiply(@RequestBody QuantityInputDTO input) {
+        return service.multiply(input);
+    }
+    @PostMapping("/subtract")
+    public QuantityMeasurementEntity subtract(@RequestBody QuantityInputDTO input) {
+        return service.subtract(input);
     }
 
     @GetMapping("/history/operation/{operation}")

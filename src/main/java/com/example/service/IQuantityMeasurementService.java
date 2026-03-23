@@ -19,5 +19,11 @@ public interface IQuantityMeasurementService {
 
 	QuantityMeasurementEntity compare(QuantityInputDTO input);
 
+	QuantityMeasurementEntity subtract(QuantityInputDTO input);
+
+	QuantityMeasurementEntity multiply(QuantityInputDTO input);
+
+	QuantityMeasurementEntity divide(QuantityInputDTO input);
+
 	
 }

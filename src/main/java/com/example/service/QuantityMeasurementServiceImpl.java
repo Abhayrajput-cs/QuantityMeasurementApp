@@ -46,10 +46,10 @@ public class QuantityMeasurementServiceImpl
             thatValue = thatValue * 12;
         }
 
-        boolean result = thisValue == thatValue;
+//        boolean result = thisValue == thatValue;
 
         entity.setOperation("COMPARE");
-        entity.setResultString(String.valueOf(result));
+        
 
         return repository.save(entity);
     }
@@ -76,11 +76,54 @@ public class QuantityMeasurementServiceImpl
 
         return repository.save(entity);
     }
-
-    // ---------------- ADD ----------------
-
     @Override
-    public QuantityMeasurementEntity add(QuantityInputDTO input) {
+    public QuantityMeasurementEntity divide(QuantityInputDTO input) {
+
+        QuantityMeasurementEntity entity = createBaseEntity(input);
+        String type = input.getThisQuantityDTO().getMeasurementType();
+
+        double thisValue = input.getThisQuantityDTO().getValue();
+        double thatValue = input.getThatQuantityDTO().getValue();
+
+        String thisUnit = input.getThisQuantityDTO().getUnit();
+        String thatUnit = input.getThatQuantityDTO().getUnit();
+
+        if(type.equals("LENGTH")) {
+
+            thisValue = convertToInches(thisValue, thisUnit);
+            thatValue = convertToInches(thatValue, thatUnit);
+
+            double result = thisValue / thatValue;
+
+            entity.setResultValue(result / 12);
+            entity.setResultUnit("FEET");
+        }
+
+        if(type.equals("TEMPERATURE")) {
+
+            thisValue = convertToCelsius(thisValue, thisUnit);
+            thatValue = convertToCelsius(thatValue, thatUnit);
+
+            double result = thisValue / thatValue;
+
+            entity.setResultValue(result);
+            entity.setResultUnit("CELSIUS");
+        }
+
+        entity.setOperation("DIVIDE");
+
+        return repository.save(entity);
+    }
+    private double convertToInches(double value, String unit){
+
+        if(unit.equals("FEET")){
+            return value * 12;
+        }
+
+        return value;
+    }
+ 
+    private QuantityMeasurementEntity createBaseEntity(QuantityInputDTO input){
 
         QuantityMeasurementEntity entity = new QuantityMeasurementEntity();
 
@@ -92,29 +135,140 @@ public class QuantityMeasurementServiceImpl
         entity.setThatUnit(input.getThatQuantityDTO().getUnit());
         entity.setThatMeasurementType(input.getThatQuantityDTO().getMeasurementType());
 
+        return entity;
+    }
+
+    // ---------------- ADD ----------------
+
+    @Override
+    public QuantityMeasurementEntity add(QuantityInputDTO input) {
+
+        QuantityMeasurementEntity entity = new QuantityMeasurementEntity();
+
         double thisValue = input.getThisQuantityDTO().getValue();
         double thatValue = input.getThatQuantityDTO().getValue();
 
         String thisUnit = input.getThisQuantityDTO().getUnit();
         String thatUnit = input.getThatQuantityDTO().getUnit();
 
-        // Convert everything to inches
-        if(thisUnit.equals("FEET")){
-            thisValue = thisValue * 12;
-        }
+        String measurementType = input.getThisQuantityDTO().getMeasurementType();
 
-        if(thatUnit.equals("FEET")){
-            thatValue = thatValue * 12;
-        }
+        entity.setThisValue(thisValue);
+        entity.setThisUnit(thisUnit);
+        entity.setThisMeasurementType(measurementType);
 
-        double resultInInches = thisValue + thatValue;
+        entity.setThatValue(thatValue);
+        entity.setThatUnit(thatUnit);
+        entity.setThatMeasurementType(input.getThatQuantityDTO().getMeasurementType());
 
-        // convert back to feet
-        double resultInFeet = resultInInches / 12;
-
-        entity.setResultValue(resultInFeet);
-        entity.setResultUnit("FEET");
         entity.setOperation("ADD");
+
+        // ---------------- LENGTH ----------------
+        if(measurementType.equals("LENGTH")){
+
+            if(thisUnit.equals("FEET")){
+                thisValue = thisValue * 12;
+            }
+
+            if(thatUnit.equals("FEET")){
+                thatValue = thatValue * 12;
+            }
+
+            double resultInInches = thisValue + thatValue;
+            double resultInFeet = resultInInches / 12;
+
+            entity.setResultValue(resultInFeet);
+            entity.setResultUnit("FEET");
+        }
+
+        // ---------------- TEMPERATURE ----------------
+        if(measurementType.equals("TEMPERATURE")){
+
+            thisValue = convertToCelsius(thisValue, thisUnit);
+            thatValue = convertToCelsius(thatValue, thatUnit);
+
+            double result = thisValue + thatValue;
+
+            entity.setResultValue(result);
+            entity.setResultUnit("CELSIUS");
+        }
+
+        return repository.save(entity);
+    }
+    
+    @Override
+    public QuantityMeasurementEntity subtract(QuantityInputDTO input) {
+
+        QuantityMeasurementEntity entity = createBaseEntity(input);
+        String type = input.getThisQuantityDTO().getMeasurementType();
+
+        double thisValue = input.getThisQuantityDTO().getValue();
+        double thatValue = input.getThatQuantityDTO().getValue();
+
+        String thisUnit = input.getThisQuantityDTO().getUnit();
+        String thatUnit = input.getThatQuantityDTO().getUnit();
+
+        if(type.equals("LENGTH")) {
+
+            thisValue = convertToInches(thisValue, thisUnit);
+            thatValue = convertToInches(thatValue, thatUnit);
+
+            double result = thisValue - thatValue;
+
+            entity.setResultValue(result / 12);
+            entity.setResultUnit("FEET");
+        }
+
+        if(type.equals("TEMPERATURE")) {
+
+            thisValue = convertToCelsius(thisValue, thisUnit);
+            thatValue = convertToCelsius(thatValue, thatUnit);
+
+            double result = thisValue - thatValue;
+
+            entity.setResultValue(result);
+            entity.setResultUnit("CELSIUS");
+        }
+
+        entity.setOperation("SUBTRACT");
+
+        return repository.save(entity);
+    }
+    @Override
+    public QuantityMeasurementEntity multiply(QuantityInputDTO input) {
+
+        QuantityMeasurementEntity entity = createBaseEntity(input);
+        String type = input.getThisQuantityDTO().getMeasurementType();
+
+        double thisValue = input.getThisQuantityDTO().getValue();
+        double thatValue = input.getThatQuantityDTO().getValue();
+
+        String thisUnit = input.getThisQuantityDTO().getUnit();
+        String thatUnit = input.getThatQuantityDTO().getUnit();
+
+        if(type.equals("LENGTH")) {
+
+            thisValue = convertToInches(thisValue, thisUnit);
+            thatValue = convertToInches(thatValue, thatUnit);
+
+            double result = thisValue * thatValue;
+
+            entity.setResultValue(result / 12);
+            entity.setResultUnit("FEET");
+        }
+
+        if(type.equals("TEMPERATURE")) {
+
+            thisValue = convertToCelsius(thisValue, thisUnit);
+            thatValue = convertToCelsius(thatValue, thatUnit);
+
+            double result = thisValue * thatValue;
+
+            entity.setResultValue(result);
+            entity.setResultUnit("CELSIUS");
+        }
+
+        entity.setOperation("MULTIPLY");
 
         return repository.save(entity);
     }
@@ -125,10 +279,23 @@ public class QuantityMeasurementServiceImpl
         return repository.findByOperation(operation);
     }
 
-    // ---------------- COUNT ----------------
+	@Override
+	public long getOperationCount(String operation) {
+		// TODO Auto-generated method stub
+		return operation.length();
+	}
+	private double convertToCelsius(double value, String unit){
 
-    @Override
-    public long getOperationCount(String operation) {
-        return repository.countByOperationAndErrorFalse(operation);
-    }
+	    if(unit.equals("FAHRENHEIT")){
+	        return (value - 32) * 5 / 9;
+	    }
+
+	    if(unit.equals("KELVIN")){
+	        return value - 273.15;
+	    }
+
+	    return value; 
+	}
+
+    
 }
