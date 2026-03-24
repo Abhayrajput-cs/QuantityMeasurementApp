@@ -14,21 +14,32 @@ public class QuantityMeasurementEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "this_value")
     private Double thisValue;
+
+    @Column(name = "this_unit")
     private String thisUnit;
+
+    @Column(name = "this_measurement_type")
     private String thisMeasurementType;
 
+    @Column(name = "that_value")
     private Double thatValue;
+
+    @Column(name = "that_unit")
     private String thatUnit;
+
+    @Column(name = "that_measurement_type")
     private String thatMeasurementType;
 
+    @Column(name = "operation")
     private String operation;
 
+    @Column(name = "result_value")
     private Double resultValue;
+
+    @Column(name = "result_unit")
     private String resultUnit;
-
-  
-
 
   
 

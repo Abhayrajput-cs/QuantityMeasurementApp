@@ -1,4 +1,4 @@
-CREATE TABLE quantity_measurements(
+CREATE TABLE IF NOT EXISTS quantity_measurements(
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
 
     this_value DOUBLE,
@@ -15,4 +15,10 @@ CREATE TABLE quantity_measurements(
     result_unit VARCHAR(20)
     
  
+);
+CREATE TABLE IF NOT EXISTS users (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(100) UNIQUE,
+    name VARCHAR(100),
+    password VARCHAR(100)
 );
