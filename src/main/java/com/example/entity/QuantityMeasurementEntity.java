@@ -1,5 +1,9 @@
 package com.example.entity;
 
+import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,6 +17,8 @@ public class QuantityMeasurementEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "user_id")
+    private Long userId;
 
     @Column(name = "this_value")
     private Double thisValue;
@@ -40,7 +46,10 @@ public class QuantityMeasurementEntity {
 
     @Column(name = "result_unit")
     private String resultUnit;
-
+    
+    @Column(name= "created_at")
+    @JsonFormat(pattern = "dd-MM-yy HH:mm:ss")
+    private LocalDateTime createdAt;
   
 
 	public Double getThisValue() {
@@ -114,6 +123,40 @@ public class QuantityMeasurementEntity {
 	public void setResultUnit(String resultUnit) {
 		this.resultUnit = resultUnit;
 	}
+
+	public Long getId() {
+		// TODO Auto-generated method stub
+		return id;
+	}
+
+	public void setId(Long id2) {
+		// TODO Auto-generated method stub
+		this.id=id2;
+	}
+	public LocalDateTime getCreatedAt() {
+	    return createdAt;
+	}
+
+	@PrePersist
+	public void prePersist() {
+	    this.createdAt = LocalDateTime.now();
+	}
+	public void setCreatedAt(LocalDateTime createdAt) {
+	    this.createdAt = createdAt;
+	}
+
+
+	public void setUserId(Long long1) {
+		
+		this.userId=long1;
+
+	}
+
+	public Long getUserId() {
+		// TODO Auto-generated method stub
+		return userId;
+	}
+
 
 	
 

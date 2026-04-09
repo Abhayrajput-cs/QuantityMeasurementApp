@@ -1,3 +1,10 @@
+CREATE TABLE IF NOT EXISTS users (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(100) UNIQUE,
+    name VARCHAR(100),
+    password VARCHAR(100)
+);
+
 CREATE TABLE IF NOT EXISTS quantity_measurements(
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
 
@@ -12,13 +19,10 @@ CREATE TABLE IF NOT EXISTS quantity_measurements(
     operation VARCHAR(20),
 
     result_value DOUBLE,
-    result_unit VARCHAR(20)
-    
- 
-);
-CREATE TABLE IF NOT EXISTS users (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    email VARCHAR(100) UNIQUE,
-    name VARCHAR(100),
-    password VARCHAR(100)
+    result_unit VARCHAR(20),
+     
+    created_at VARCHAR(30),
+    user_id BIGINT,
+
+    CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(id)
 );

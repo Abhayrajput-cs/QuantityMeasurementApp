@@ -15,7 +15,6 @@ public interface IQuantityMeasurementService {
 
     List<QuantityMeasurementEntity> getHistoryByOperation(String operation);
 
-    long getOperationCount(String operation);
 
 	QuantityMeasurementEntity compare(QuantityInputDTO input);
 
@@ -24,6 +23,19 @@ public interface IQuantityMeasurementService {
 	QuantityMeasurementEntity multiply(QuantityInputDTO input);
 
 	QuantityMeasurementEntity divide(QuantityInputDTO input);
+	List<QuantityMeasurementEntity> getAll();
+
+	QuantityMeasurementEntity getById(Long id);
+
+
+	void delete(Long id);
+
+	void deleteAllByUser();
+
+	void deleteFiltered(String operation, String type);
+
+	List<QuantityMeasurementEntity> getFiltered(String operation, String type);
+	
 
 	
 }

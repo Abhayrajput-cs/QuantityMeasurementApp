@@ -6,12 +6,17 @@ import com.example.entity.QuantityMeasurementEntity;
 import com.example.service.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+
 
 @RestController
 @RequestMapping("/api/v1/quantities")
+@CrossOrigin(origins = "http://localhost:3000") 
+
 public class QuantityMeasurementController {
 
     @Autowired
@@ -49,8 +54,48 @@ public class QuantityMeasurementController {
         return service.getHistoryByOperation(operation);
     }
 
-    @GetMapping("/count/{operation}")
-    public long getCount(@PathVariable String operation) {
-        return service.getOperationCount(operation);
+
+        // CREATE (already exists via operations)
+
+    @GetMapping("/all")
+    public List<QuantityMeasurementEntity> getAll(
+            @RequestParam(required = false) String operation,
+            @RequestParam(required = false) String type) {
+
+        return service.getFiltered(operation, type);
     }
-}
+
+        @GetMapping("/{id}")
+        public QuantityMeasurementEntity getById(@PathVariable Long id) {
+            return service.getById(id);
+        }
+
+        @DeleteMapping("/{id}")
+        public ResponseEntity<?> delete(@PathVariable Long id) {
+
+            System.out.println("CONTROLLER DELETE HIT ID:" + id);
+
+            service.delete(id);
+
+            return ResponseEntity.ok(Map.of("message", "deleted"));
+        }
+        @DeleteMapping("/delete-all")
+        public ResponseEntity<?> deleteAll() {
+            service.deleteAllByUser();
+
+            return ResponseEntity.ok().body(
+                Map.of("message", "All history deleted successfully")
+            );
+        }
+        @DeleteMapping("/delete-filtered")
+        public ResponseEntity<?> deleteFiltered(
+                @RequestParam(required = false) String operation,
+                @RequestParam(required = false) String type) {
+
+            service.deleteFiltered(operation, type); 
+
+            return ResponseEntity.ok(Map.of("message", "Filtered records deleted successfully")
+            );
+        }
+
+    }

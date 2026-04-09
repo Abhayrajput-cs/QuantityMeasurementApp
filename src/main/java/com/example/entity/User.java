@@ -46,6 +46,11 @@ public class User {
 		return email;
 	}
 
+	public Long getId() {
+		// TODO Auto-generated method stub
+		return id;
+	}
+
 
 	
 }
