@@ -5,6 +5,7 @@ import com.example.dto.RegisterDTO;
 import com.example.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
@@ -19,11 +20,17 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/register")
-    @ResponseBody
-    public String register(@RequestBody RegisterDTO dto) {
-        return userService.register(dto);
-    }
+    public ResponseEntity<?> register(@RequestBody RegisterDTO dto) {
+        try {
+            String response = userService.register(dto);
+            return ResponseEntity.ok(response);
 
+        } catch (RuntimeException e) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(e.getMessage());
+        }
+    }
     @PostMapping("/login")
     @ResponseBody
     public String login(@RequestBody LoginDTO dto) {
