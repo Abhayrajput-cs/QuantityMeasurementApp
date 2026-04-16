@@ -15,7 +15,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/quantities")
-@CrossOrigin(origins = "http://localhost:3000") 
+@CrossOrigin(origins = "http://35.172.201.210") 
 
 public class QuantityMeasurementController {
 
