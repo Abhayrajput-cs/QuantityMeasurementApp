@@ -78,17 +78,18 @@ public class JwtFilter extends OncePerRequestFilter {
     
     
 
-    @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) {
+  @Override
+protected boolean shouldNotFilter(HttpServletRequest request) {
 
-        String path = request.getServletPath();
+    String path = request.getServletPath();
 
-        return path.equals("/api/v1/users/login")
-                || path.equals("/api/v1/users/register")
-                || path.startsWith("/oauth2")     // Google OAuth flow
-                || path.startsWith("/login")      // Spring OAuth internal
-                || HttpMethod.OPTIONS.matches(request.getMethod());
-    }
+    return path.equals("/api/v1/users/login")
+            || path.equals("/api/v1/users/register")
+            || path.startsWith("/oauth2")
+            || path.startsWith("/login")
+            || path.startsWith("/error")
+            || HttpMethod.OPTIONS.matches(request.getMethod());
+}
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -101,19 +102,24 @@ public class JwtFilter extends OncePerRequestFilter {
 
             if (authHeader != null && authHeader.startsWith("Bearer ")) {
 
-                String token = authHeader.substring(7);
+    String token = authHeader.substring(7);
 
-                if (jwtUtil.validateToken(token)) {
+    if (jwtUtil.validateToken(token)) {
 
-                    String email = jwtUtil.extractUsername(token);
+        String email = jwtUtil.extractUsername(token);
 
-                    UsernamePasswordAuthenticationToken auth =
-                            new UsernamePasswordAuthenticationToken(
-                                    email, null, Collections.emptyList());
+        UsernamePasswordAuthenticationToken auth =
+                new UsernamePasswordAuthenticationToken(
+                        email, null, Collections.emptyList());
 
-                    SecurityContextHolder.getContext().setAuthentication(auth);
-                }
-            }
+        SecurityContextHolder.getContext().setAuthentication(auth);
+
+    } else {
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.getWriter().write("Invalid JWT Token");
+        return;
+    }
+}
 
         } catch (Exception e) {
             // 🔥 Important for debugging
