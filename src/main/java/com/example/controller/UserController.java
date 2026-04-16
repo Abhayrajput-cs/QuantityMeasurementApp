@@ -1,10 +1,16 @@
+package com.example.controller;
+
+import com.example.dto.LoginDTO;
+import com.example.dto.RegisterDTO;
+import com.example.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.web.bind.annotation.*;
+
 @RestController
 @RequestMapping("/api/v1/users")
-@CrossOrigin(origins = "http://35.172.201.210")
-    @CrossOrigin(origins = {
-    "http://abhayqma.duckdns.org",
-    "http://abhayqma.duckdns.org:8080"
-})
 public class UserController {
 
     @Autowired
@@ -29,13 +35,14 @@ public class UserController {
     public String googleLoginSuccess(@AuthenticationPrincipal OAuth2User user) {
 
         if (user == null) {
-return "redirect:http://abhayqma.duckdns.org/login?error";        }
+            return "redirect:http://abhayqma.duckdns.org/login?error";
+        }
 
         String email = user.getAttribute("email");
         String name = user.getAttribute("name");
 
         String token = userService.googleLogin(email, name);
 
-       return "redirect:http://abhayqma.duckdns.org/auth?token=" + token;
+        return "redirect:http://abhayqma.duckdns.org/auth?token=" + token;
     }
 }
