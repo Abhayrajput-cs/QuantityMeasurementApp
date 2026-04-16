@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/api/v1/users")
-@CrossOrigin(origins = "http://35.172.201.210"
-            ,"https://dial-slush-stimulant.ngrok-free.dev") 
+@CrossOrigin(origins = {
+        "http://35.172.210",
+        "https://dial-slush-stimulant.ngrok-free.dev"
+})
 public class UserController {
 
     @Autowired
