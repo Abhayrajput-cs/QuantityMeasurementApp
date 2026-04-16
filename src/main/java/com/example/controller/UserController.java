@@ -1,6 +1,6 @@
 @RestController
 @RequestMapping("/api/v1/users")
-// @CrossOrigin(origins = "http://35.172.201.210")
+@CrossOrigin(origins = "http://35.172.201.210")
     @CrossOrigin(origins = {
     "http://abhayqma.duckdns.org",
     "http://abhayqma.duckdns.org:8080"
