@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/api/v1/users")
-@CrossOrigin(origins = "http://localhost:3000") 
+@CrossOrigin(origins = "http://35.172.201.210") 
 public class UserController {
 
     @Autowired
@@ -44,6 +44,6 @@ public class UserController {
         String token = userService.googleLogin(email, user.getAttribute("name"));
 
         // Spring will send an actual redirect to browser
-        return "redirect:http://localhost:3000/auth?token=" + token;
+       return "redirect:http://35.172.201.210/auth?token=" + token;
     }
 }
